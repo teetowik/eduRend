@@ -9,6 +9,7 @@
 
 #include "vec\vec.h"
 #include "vec\mat.h"
+#include "Model.h"
 
 /**
  * @brief Manages camera data, also handles generation of view and projection matrices.
@@ -38,6 +39,8 @@ public:
 	*/
 	void Move(const linalg::vec3f& direction) noexcept;
 
+	void Rotate(const float& x, float& y) noexcept;
+
 	/**
 	 * @brief Changes the camera aspect ratio.
 	 * @param[in] aspect_ratio New aspect ratio, calculate with width / height
@@ -58,10 +61,13 @@ public:
 	*/
 	linalg::mat4f ProjectionMatrix() const noexcept;
 
+	linalg::vec4f GetCamPos() noexcept;
+
 private:
 	// Aperture attributes
 	float m_vertical_fov;
 	float m_aspect_ratio;
+	mat4f m_rotation;
 
 	// Clip planes in view space coordinates
 	// Evrything outside of [m_near_plane, m_far_plane] is clipped away on the GPU side

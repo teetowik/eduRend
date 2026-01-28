@@ -5,7 +5,7 @@
 */
 
 #pragma once
-#include "Model.h"
+#include "model.h"
 
 /**
  * @brief Model reprsenting a Quad.
