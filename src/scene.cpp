@@ -52,13 +52,14 @@ void OurTestScene::Init()
 	sensitivity = 300.0f;
 
 	// Create objects
-	m_quad = new QuadModel(m_dxdevice, m_dxdevice_context);
-	m_cube = new Cube(m_dxdevice, m_dxdevice_context);
 	m_sponza = new OBJModel("assets/crytek-sponza/sponza.obj", m_dxdevice, m_dxdevice_context);
 
 	m_sun = new OBJModel("assets/sphere/sphere.obj", m_dxdevice, m_dxdevice_context);
 	m_earth = new OBJModel("assets/sphere/sphere.obj", m_dxdevice, m_dxdevice_context);
 	m_moon = new OBJModel("assets/sphere/sphere.obj", m_dxdevice, m_dxdevice_context);
+
+	m_quad = new QuadModel(m_dxdevice, m_dxdevice_context);
+	m_cube = new Cube(m_dxdevice, m_dxdevice_context);
 
 	light_src.set(0, 0, 5);
 }
@@ -94,9 +95,7 @@ void OurTestScene::Update(
 	pitch = mousedy / sensitivity;
 
 	m_camera->Rotate(yaw, pitch);
-
-	//light_src += light_src * mat3f::rotation(m_angle, 0.0f, 0.0f, 0.0f).inverse();
-	// ?
+	//light_src = vec3f(0,0,5) * mat3f::rotation(-m_angle, 0.0f, 1.0f, 0.0f); // spin camera
 
 	// Now set/update object transformations
 	// This can be done using any sequence of transformation matrices,
@@ -154,6 +153,7 @@ void OurTestScene::Render()
 	// Bind transformation_buffer to slot b0 of the VS
 	m_dxdevice_context->VSSetConstantBuffers(0, 1, &m_transformation_buffer);
 	m_dxdevice_context->PSSetConstantBuffers(0, 1, &lightcam_buffer);
+	//m_dxdevice_context->PSSetConstantBuffers(1, 1, &material_buffer);
 
 	// Obtain the matrices needed for rendering from the camera
 	//printf("1: \n");
@@ -188,7 +188,7 @@ void OurTestScene::Render()
 
 	//vec4f temp(light_src.x, light_src.y, light_src.z, 0);
 	//std::cout << temp.x << "," << temp.y << "," << temp.z << "," << temp.w << std::endl;
-	UpdateLightCamBuffer(vec4f(light_src.x, light_src.y, light_src.z, 0), m_camera->GetCamPos());
+	UpdateLightCamBuffer(normalize(vec4f(light_src.x, light_src.y, light_src.z, 0)), normalize(m_camera->GetCamPos()));
 }
 
 void OurTestScene::Release()

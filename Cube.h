@@ -3,10 +3,16 @@
 #define CUBE_H
 
 #include "src/model.h"
+#include "src/vec/vec.h"
+#include "src/drawcall.h"
 
 class Cube : public Model
 {
 	unsigned m_number_of_indices = 0;
+
+	//vec3f AmbientColour;
+	//vec3f DiffuseColour;
+	//vec3f SpecularColour;
 
 public:
 
@@ -14,7 +20,7 @@ public:
 
 	virtual void Render() const;
 
-	~Cube() {}
+	~Cube() { }
 };
 
 

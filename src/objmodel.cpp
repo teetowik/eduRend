@@ -83,6 +83,8 @@ OBJModel::OBJModel(
 	}
 	std::cout << "Done." << std::endl;
 
+	InitMaterialBuffer();
+
 	SAFE_DELETE(mesh);
 }
 
@@ -109,6 +111,12 @@ void OBJModel::Render() const
 		// Make the drawcall
 		m_dxdevice_context->DrawIndexed(indexRange.Size, indexRange.Start, 0);
 	}
+
+	m_dxdevice_context->PSSetConstantBuffers(1, 1, &material_buffer);
+	for (auto i = 0; i < m_materials.size(); i++)
+	{
+		UpdateMaterialBuffer(vec4f(m_materials[i].AmbientColour, 0), vec4f(m_materials[i].DiffuseColour, 0), vec4f(m_materials[i].SpecularColour, 0));
+	}
 }
 
 OBJModel::~OBJModel()
@@ -119,4 +127,31 @@ OBJModel::~OBJModel()
 
 		// Release other used textures ...
 	}
+}
+
+void Model::InitMaterialBuffer()
+{
+	HRESULT hr;
+	D3D11_BUFFER_DESC vectorBufferDesc = { 0 };
+	vectorBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	vectorBufferDesc.ByteWidth = sizeof(MaterialBuffer);
+	vectorBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	vectorBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	vectorBufferDesc.MiscFlags = 0;
+	vectorBufferDesc.StructureByteStride = 0;
+	ASSERT(hr = m_dxdevice->CreateBuffer(&vectorBufferDesc, nullptr, &material_buffer));
+}
+
+void Model::UpdateMaterialBuffer(
+	vec4f AmbientColour, 
+	vec4f DiffuseColour,
+	vec4f SpecularColour) const
+{
+	D3D11_MAPPED_SUBRESOURCE resource;
+	m_dxdevice_context->Map(material_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
+	MaterialBuffer* vectorBuffer = (MaterialBuffer*)resource.pData;
+	vectorBuffer->AmbientColour = AmbientColour;
+	vectorBuffer->DiffuseColour = DiffuseColour;
+	vectorBuffer->SpecularColour = SpecularColour;
+	m_dxdevice_context->Unmap(material_buffer, 0);
 }

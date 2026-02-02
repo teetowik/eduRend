@@ -7,11 +7,21 @@ cbuffer LightCamBuffer : register(b0)
     vector CamPosition;
 };
 
+
+cbuffer MaterialBuffer : register(b1)
+{
+    vector AmbientColour;
+    vector DiffuseColour;
+    vector SpecularColour;
+}
+
+
 struct PSIn
 {
 	float4 Pos  : SV_Position;
 	float3 Normal : NORMAL;
 	float2 TexCoord : TEX;
+    float3 PosWorld : Position;
 };
 
 //-----------------------------------------------------------------------------------------
@@ -24,10 +34,30 @@ float4 PS_main(PSIn input) : SV_Target
 	// The 4:th component is opacity and should be = 1
 	//return float4(input.Normal*0.5+0.5, 1);
 	
-    float3 test = { LightPosition[0], LightPosition[1], LightPosition[2] };
+    float3 L = LightPosition.xyz;
 	
-    return float4((test) * input.Normal, 1);
+    float3 Ka = AmbientColour.xyz;
+	
+    float3 Kd = DiffuseColour.xyz;
+	
+    float3 Ks = SpecularColour.xyz;
+	
+    float3 R = reflect(L, input.Normal);
+	
+    float3 V = input.PosWorld - CamPosition.xyz;
+	
+    float3 alpha = 80;
+	
+    float3 diff = (Kd * (L * input.Normal));
+    float3 spec = Ks * (pow((R * V), alpha));
+	
+    //return float4(Kd * input.Normal * L, 1);
+    
+    //return float4(Ka + diff + spec, 1);
+    return float4(Ka + (Kd * (L * input.Normal) + Ks * (pow((R * V), alpha))), 1);
 	
 	// Debug shading #2: map and return texture coordinates as a color (blue = 0)
 //	return float4(input.TexCoord, 0, 1);
 }
+
+

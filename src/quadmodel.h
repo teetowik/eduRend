@@ -14,6 +14,8 @@ class QuadModel : public Model
 {
 	unsigned m_number_of_indices = 0;
 
+	Material material;
+
 public:
 	/**
 	 * @brief Create a model of a quad.

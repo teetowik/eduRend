@@ -15,6 +15,7 @@
 #include "Drawcall.h"
 #include "OBJLoader.h"
 #include "Texture.h"
+#include "buffers.h"
 
 using namespace linalg;
 
@@ -31,6 +32,11 @@ protected:
 	// Pointers to the class' vertex & index arrays
 	ID3D11Buffer* m_vertex_buffer = nullptr; //!< Pointer to gpu side vertex buffer
 	ID3D11Buffer* m_index_buffer = nullptr; //!< Pointer to gpu side index buffer
+	ID3D11Buffer* material_buffer = nullptr;
+
+	void InitMaterialBuffer();
+
+	void UpdateMaterialBuffer(vec4f ambient_colour, vec4f diffuse_colour, vec4f specular_colour) const;
 
 public:
 
@@ -55,6 +61,7 @@ public:
 	{ 
 		SAFE_RELEASE(m_vertex_buffer);
 		SAFE_RELEASE(m_index_buffer);
+		SAFE_RELEASE(material_buffer);
 	}
 };
 

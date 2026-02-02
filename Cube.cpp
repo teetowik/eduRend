@@ -211,6 +211,12 @@ Cube::Cube(
 	SETNAME(m_index_buffer, "IndexBuffer");
 
 	m_number_of_indices = (unsigned int)indices.size();
+
+	//AmbientColour = { 0.0f, 0.5f, 0.0f }; //!< Ambient colour component
+	//DiffuseColour = { 0.0f, 0.5f, 0.0f }; //!< Diffuse colour component
+	//SpecularColour = { 1.0f, 1.0f, 1.0f }; //!< Specular colour component
+
+	InitMaterialBuffer();
 }
 
 void Cube::Render() const
@@ -225,4 +231,7 @@ void Cube::Render() const
 
 	// Make the drawcall
 	m_dxdevice_context->DrawIndexed(m_number_of_indices, 0, 0);
+
+	//m_dxdevice_context->PSSetConstantBuffers(1, 1, &material_buffer);
+	//UpdateMaterialBuffer(vec4f(AmbientColour,0), vec4f(DiffuseColour,0), vec4f(SpecularColour,0));
 }

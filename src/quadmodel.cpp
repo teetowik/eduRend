@@ -1,4 +1,4 @@
-#include "QuadModel.h"
+#include "quadmodel.h"
 
 QuadModel::QuadModel(
 	ID3D11Device* dxdevice,
@@ -68,8 +68,13 @@ QuadModel::QuadModel(
 	SETNAME(m_index_buffer, "IndexBuffer");
 
 	m_number_of_indices = (unsigned int)indices.size();
-}
 
+	//AmbientColour = { 0.0f, 0.5f, 0.0f }; //!< Ambient colour component
+	//DiffuseColour = { 0.0f, 0.5f, 0.0f }; //!< Diffuse colour component
+	//SpecularColour = { 1.0f, 1.0f, 1.0f }; //!< Specular colour component
+
+	InitMaterialBuffer();
+}
 
 void QuadModel::Render() const
 {
@@ -83,4 +88,7 @@ void QuadModel::Render() const
 
 	// Make the drawcall
 	m_dxdevice_context->DrawIndexed(m_number_of_indices, 0, 0);
+
+	//m_dxdevice_context->PSSetConstantBuffers(1, 1, &material_buffer);
+	UpdateMaterialBuffer(vec4f(material.AmbientColour, 0), vec4f(material.DiffuseColour, 0), vec4f(material.SpecularColour, 0));
 }
