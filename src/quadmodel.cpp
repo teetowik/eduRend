@@ -72,12 +72,13 @@ QuadModel::QuadModel(
 	//AmbientColour = { 0.0f, 0.5f, 0.0f }; //!< Ambient colour component
 	//DiffuseColour = { 0.0f, 0.5f, 0.0f }; //!< Diffuse colour component
 	//SpecularColour = { 1.0f, 1.0f, 1.0f }; //!< Specular colour component
-
-	InitMaterialBuffer();
 }
 
 void QuadModel::Render() const
 {
+	m_dxdevice_context->PSSetConstantBuffers(1, 1, &material_buffer);
+	UpdateMaterialBuffer(material);
+
 	// Bind our vertex buffer
 	const UINT32 stride = sizeof(Vertex); //  sizeof(float) * 8;
 	const UINT32 offset = 0;
@@ -88,7 +89,4 @@ void QuadModel::Render() const
 
 	// Make the drawcall
 	m_dxdevice_context->DrawIndexed(m_number_of_indices, 0, 0);
-
-	//m_dxdevice_context->PSSetConstantBuffers(1, 1, &material_buffer);
-	UpdateMaterialBuffer(vec4f(material.AmbientColour, 0), vec4f(material.DiffuseColour, 0), vec4f(material.SpecularColour, 0));
 }

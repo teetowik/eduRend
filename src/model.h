@@ -36,7 +36,7 @@ protected:
 
 	void InitMaterialBuffer();
 
-	void UpdateMaterialBuffer(vec4f ambient_colour, vec4f diffuse_colour, vec4f specular_colour) const;
+	void UpdateMaterialBuffer(const Material& material, float Shininess = 0) const;
 
 public:
 
@@ -45,8 +45,7 @@ public:
 	 * @param dxdevice ID3D11Device to be used in the model.
 	 * @param dxdevice_context ID3D11DeviceContext to be used in the model.
 	*/
-	Model(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context) 
-		:	m_dxdevice(dxdevice), m_dxdevice_context(dxdevice_context) { }
+	Model(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context);
 
 	/**
 	 * @brief Abstract render method: must be implemented by derived classes

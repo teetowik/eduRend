@@ -3,8 +3,6 @@
 #define CUBE_H
 
 #include "model.h"
-#include "vec/vec.h"
-#include "drawcall.h"
 
 class Cube : public Model
 {

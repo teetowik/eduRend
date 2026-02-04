@@ -198,6 +198,7 @@
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\Cube.cpp" />
     <ClCompile Include="src\inputhandler.cpp" />

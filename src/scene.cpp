@@ -96,6 +96,7 @@ void OurTestScene::Update(
 
 	m_camera->Rotate(yaw, pitch);
 	//light_src = vec3f(0,0,5) * mat3f::rotation(-m_angle, 0.0f, 1.0f, 0.0f); // spin camera
+	//light_src = vec3f(m_camera->GetCamPos().x, m_camera->GetCamPos().y, m_camera->GetCamPos().z);
 
 	// Now set/update object transformations
 	// This can be done using any sequence of transformation matrices,
@@ -194,8 +195,12 @@ void OurTestScene::Render()
 void OurTestScene::Release()
 {
 	SAFE_DELETE(m_quad);
+	SAFE_DELETE(m_cube);
 	SAFE_DELETE(m_sponza);
 	SAFE_DELETE(m_camera);
+	SAFE_DELETE(m_sun);
+	SAFE_DELETE(m_earth);
+	SAFE_DELETE(m_moon);
 
 	SAFE_RELEASE(m_transformation_buffer);
 	SAFE_RELEASE(lightcam_buffer);

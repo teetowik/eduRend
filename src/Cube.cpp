@@ -1,5 +1,4 @@
 #include "Cube.h"
-#include "iostream"
 
 Cube::Cube(
 	ID3D11Device* dxdevice,
@@ -212,15 +211,16 @@ Cube::Cube(
 
 	m_number_of_indices = (unsigned int)indices.size();
 
-	//AmbientColour = { 0.0f, 0.5f, 0.0f }; //!< Ambient colour component
-	//DiffuseColour = { 0.0f, 0.5f, 0.0f }; //!< Diffuse colour component
-	//SpecularColour = { 1.0f, 1.0f, 1.0f }; //!< Specular colour component
-
-	InitMaterialBuffer();
+	material.AmbientColour = { 0.5f, 0.5f, 0.5f }; //!< Ambient colour component
+	material.DiffuseColour = { 0.5f, 0.5f, 0.5f }; //!< Diffuse colour component
+	material.SpecularColour = { 1.0f, 1.0f, 1.0f }; //!< Specular colour component
 }
 
 void Cube::Render() const
 {
+	m_dxdevice_context->PSSetConstantBuffers(1, 1, &material_buffer);
+	UpdateMaterialBuffer(material, 30.0f);
+
 	// Bind our vertex buffer
 	const UINT32 stride = sizeof(Vertex); //  sizeof(float) * 8;
 	const UINT32 offset = 0;
@@ -231,7 +231,4 @@ void Cube::Render() const
 
 	// Make the drawcall
 	m_dxdevice_context->DrawIndexed(m_number_of_indices, 0, 0);
-
-	//m_dxdevice_context->PSSetConstantBuffers(1, 1, &material_buffer);
-	UpdateMaterialBuffer(vec4f(material.AmbientColour,0), vec4f(material.DiffuseColour,0), vec4f(material.SpecularColour,0));
 }
