@@ -189,7 +189,7 @@ void OurTestScene::Render()
 
 	//vec4f temp(light_src.x, light_src.y, light_src.z, 0);
 	//std::cout << temp.x << "," << temp.y << "," << temp.z << "," << temp.w << std::endl;
-	UpdateLightCamBuffer(normalize(vec4f(light_src.x, light_src.y, light_src.z, 0)), normalize(m_camera->GetCamPos()));
+	UpdateLightCamBuffer(vec4f(light_src.x, light_src.y, light_src.z, 0), m_camera->GetCamPos());
 }
 
 void OurTestScene::Release()

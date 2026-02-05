@@ -46,7 +46,7 @@ float4 PS_main(PSIn input) : SV_Target
 	
     float3 R = reflect(-L, input.Normal);
     
-    float Shininess = 0.0f;
+    float Shininess = 30.0f;
 	
     return float4(Ka + (Kd * max((dot(input.Normal, L)), 0.0) + Ks * (pow(max(dot(V, R), 0.0), Shininess))), 1);
 
