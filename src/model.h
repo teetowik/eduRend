@@ -33,10 +33,13 @@ protected:
 	ID3D11Buffer* m_vertex_buffer = nullptr; //!< Pointer to gpu side vertex buffer
 	ID3D11Buffer* m_index_buffer = nullptr; //!< Pointer to gpu side index buffer
 	ID3D11Buffer* material_buffer = nullptr;
+	ID3D11SamplerState* sampler = nullptr;
 
 	void InitMaterialBuffer();
 
 	void UpdateMaterialBuffer(const Material& material, float Shininess = 0) const;
+
+	D3D11_SAMPLER_DESC samplerdesc;
 
 public:
 
@@ -61,6 +64,7 @@ public:
 		SAFE_RELEASE(m_vertex_buffer);
 		SAFE_RELEASE(m_index_buffer);
 		SAFE_RELEASE(material_buffer);
+		SAFE_RELEASE(sampler);
 	}
 };
 

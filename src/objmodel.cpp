@@ -72,6 +72,7 @@ OBJModel::OBJModel(
 
 			hr = LoadTextureFromFile(
 				dxdevice,
+				dxdevice_context,
 				material.DiffuseTextureFilename.c_str(),
 				&material.DiffuseTexture);
 			std::cout << "\t" << material.DiffuseTextureFilename
@@ -92,6 +93,8 @@ void OBJModel::Render() const
 	const UINT32 stride = sizeof(Vertex);
 	const UINT32 offset = 0;
 	m_dxdevice_context->IASetVertexBuffers(0, 1, &m_vertex_buffer, &stride, &offset);
+
+	m_dxdevice_context->PSSetSamplers(0, 1, &sampler);
 
 	// Bind index buffer
 	m_dxdevice_context->IASetIndexBuffer(m_index_buffer, DXGI_FORMAT_R32_UINT, 0);

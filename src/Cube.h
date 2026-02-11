@@ -16,7 +16,7 @@ public:
 
 	virtual void Render() const;
 
-	~Cube() { }
+	~Cube() { SAFE_RELEASE(material.DiffuseTexture.TextureView) }
 };
 
 

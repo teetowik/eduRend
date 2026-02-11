@@ -110,7 +110,7 @@ void OurTestScene::Update(
 		mat4f::scaling(1.5, 1.5, 1.5);				// Scale uniformly to 150%
 
 	m_cube_transform = mat4f::translation(0, 0, 0) *
-		mat4f::rotation(m_angle, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis
+		mat4f::rotation(0, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis
 		mat4f::scaling(1.5, 1.5, 1.5);				// Scale uniformly to 150%
 
 	// Sponza model-to-world transformation
@@ -187,9 +187,8 @@ void OurTestScene::Render()
 	UpdateTransformationBuffer(m_moon_transform, m_view_matrix, m_projection_matrix);
 	m_moon->Render();
 
-	//vec4f temp(light_src.x, light_src.y, light_src.z, 0);
-	//std::cout << temp.x << "," << temp.y << "," << temp.z << "," << temp.w << std::endl;
 	UpdateLightCamBuffer(vec4f(light_src.x, light_src.y, light_src.z, 0), m_camera->GetCamPos());
+	//UpdateLightCamBuffer(m_camera->GetCamPos(), m_camera->GetCamPos());
 }
 
 void OurTestScene::Release()

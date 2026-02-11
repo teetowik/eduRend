@@ -212,14 +212,23 @@ Cube::Cube(
 	m_number_of_indices = (unsigned int)indices.size();
 
 	material.AmbientColour = { 0.5f, 0.5f, 0.5f }; //!< Ambient colour component
-	material.DiffuseColour = { 0.5f, 0.5f, 0.5f }; //!< Diffuse colour component
+	material.DiffuseColour = { 1.0f, 1.0f, 1.0f }; //!< Diffuse colour component
 	material.SpecularColour = { 1.0f, 1.0f, 1.0f }; //!< Specular colour component
+
+	//material.DiffuseTextureFilename = "assets/textures/floor_diffuse.JPG";
+	material.DiffuseTextureFilename = "assets/textures/yroadcrossing.png";
+
+	HRESULT hr = LoadTextureFromFile(dxdevice, dxdevice_context, material.DiffuseTextureFilename.c_str(), &material.DiffuseTexture);
 }
 
 void Cube::Render() const
 {
 	m_dxdevice_context->PSSetConstantBuffers(1, 1, &material_buffer);
-	UpdateMaterialBuffer(material, 30.0f);
+	m_dxdevice_context->PSSetShaderResources(0, 1, &material.DiffuseTexture.TextureView);
+
+	m_dxdevice_context->PSSetSamplers(0, 1, &sampler);
+
+	UpdateMaterialBuffer(material);
 
 	// Bind our vertex buffer
 	const UINT32 stride = sizeof(Vertex); //  sizeof(float) * 8;

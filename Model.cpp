@@ -4,6 +4,21 @@ Model::Model(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context)
 	: m_dxdevice(dxdevice), m_dxdevice_context(dxdevice_context)
 {
 	InitMaterialBuffer();
+
+	samplerdesc = {
+		D3D11_FILTER_ANISOTROPIC,
+		D3D11_TEXTURE_ADDRESS_CLAMP,
+		D3D11_TEXTURE_ADDRESS_CLAMP,
+		D3D11_TEXTURE_ADDRESS_CLAMP,
+		0.0f,
+		16,
+		D3D11_COMPARISON_NEVER,
+		{1.0f, 1.0f, 1.0f, 1.0f},
+		-FLT_MAX,
+		FLT_MAX,
+	};
+
+	dxdevice->CreateSamplerState(&samplerdesc, &sampler);
 }
 
 
