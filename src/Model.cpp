@@ -1,4 +1,4 @@
-#include "src/model.h"
+#include "model.h"
 
 Model::Model(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context)
 	: m_dxdevice(dxdevice), m_dxdevice_context(dxdevice_context)
@@ -7,9 +7,9 @@ Model::Model(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context)
 
 	samplerdesc = {
 		D3D11_FILTER_ANISOTROPIC,
-		D3D11_TEXTURE_ADDRESS_CLAMP,
-		D3D11_TEXTURE_ADDRESS_CLAMP,
-		D3D11_TEXTURE_ADDRESS_CLAMP,
+		D3D11_TEXTURE_ADDRESS_MIRROR,
+		D3D11_TEXTURE_ADDRESS_MIRROR,
+		D3D11_TEXTURE_ADDRESS_MIRROR,
 		0.0f,
 		16,
 		D3D11_COMPARISON_NEVER,
@@ -45,4 +45,31 @@ void Model::UpdateMaterialBuffer(const Material& material, float Shininess) cons
 	matrixBuffer->DiffuseColour = vec4f(material.DiffuseColour, Shininess);
 	matrixBuffer->SpecularColour = vec4f(material.SpecularColour, Shininess);
 	m_dxdevice_context->Unmap(material_buffer, 0);
+}
+
+void Model::Compute_TB(Vertex& v0, Vertex& v1, Vertex& v2)
+{
+	vec3f tangent, binormal;
+
+	//lengyel
+	// 3D vectors
+	vec3f D = v1.Position - v0.Position;
+	vec3f E = v2.Position - v0.Position;
+
+	// 2D vectors
+	vec2f F = v1.TexCoord - v0.TexCoord;
+	vec2f G = v2.TexCoord - v0.TexCoord;
+
+	float det = 1 / ((F.x * G.y) - (F.y * G.x));
+
+	tangent.x = det * (G.y * D.x + -F.y * E.x);
+	tangent.y = det * (G.y * D.y + -F.y * E.y);
+	tangent.z = det * (G.y * D.z + -F.y * E.z);
+
+	binormal.x = det * (-G.x * D.x + F.x * E.x);
+	binormal.y = det * (-G.x * D.y + F.x * E.y);
+	binormal.z = det * (-G.x * D.z + F.x * E.z);
+
+	v0.Tangent = v1.Tangent = v2.Tangent = tangent;
+	v0.Binormal = v1.Binormal = v2.Binormal = binormal;
 }

@@ -39,6 +39,8 @@ protected:
 
 	void UpdateMaterialBuffer(const Material& material, float Shininess = 0) const;
 
+	void Compute_TB(Vertex& v0, Vertex& v1, Vertex& v2);
+
 	D3D11_SAMPLER_DESC samplerdesc;
 
 public:
