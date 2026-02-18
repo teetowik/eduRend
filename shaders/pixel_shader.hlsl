@@ -1,6 +1,7 @@
 
 Texture2D texDiffuse : register(t0);
 Texture2D NormalMap : register(t1);
+Texture2D texSpecular : register(t2);
 
 SamplerState texSampler : register(s0);
 
@@ -59,21 +60,27 @@ float4 PS_main(PSIn input) : SV_Target
 */
     
     //input.TexCoord = input.TexCoord * 2;
-
-    float4 texColour = texDiffuse.Sample(texSampler, input.TexCoord);
-    float3 Normal = input.Normal;
     
-    int normalWidth, normalHeight;
+    float3 texColour = texDiffuse.Sample(texSampler, input.TexCoord).xyz;
+    float3 Normal = input.Normal;
+    //float4 specColour = float4(1, 1, 1, 1);
+    
+    int normalWidth, normalHeight, specularWidth, specularHeight;
     NormalMap.GetDimensions(normalWidth, normalHeight);
+    texSpecular.GetDimensions(specularWidth, specularHeight);
     
     if (normalWidth != 0)
     {
         float3x3 TBN = transpose(float3x3(input.Tangent, input.Binormal, input.Normal));
-        Normal = NormalMap.Sample(texSampler, input.TexCoord).xyz;
-        Normal = Normal * 2 - 1;
+        float3 normal = NormalMap.Sample(texSampler, input.TexCoord).xyz * 2 - 1;
     
-        Normal = mul(TBN, Normal);
+        Normal = mul(TBN, normal);
     }
+    
+    //if (specularWidth != 0)
+    //{
+    //    specColour = texSpecular.Sample(texSampler, input.TexCoord);
+    //}
     
     float Shininess = 30.0f;
     
@@ -83,15 +90,15 @@ float4 PS_main(PSIn input) : SV_Target
     
     float3 R = reflect(-L, Normal);
 	
-    float4 Ka = AmbientColour * texColour;
+    float3 Ka = AmbientColour.xyz * texColour;
 	
-    float diffuse = max((dot(Normal, L)), 0.0);
-    float4 Kd = DiffuseColour * texColour * diffuse;
+    float diffuse = saturate((dot(Normal, L)));
+    float3 Kd = texColour * diffuse;
 	
     float specular = (pow(max(dot(V, R), 0.0), Shininess));
-    float4 Ks = SpecularColour * specular;
+    float3 Ks = SpecularColour.xyz * specular;// * specColour;
     
-    return float4(Ka + Kd + Ks);
+    return float4(Ka + Kd + Ks, 1);
     
 	// Debug shading #2: map and return texture coordinates as a color (blue = 0)
 //	return float4(input.TexCoord, 0, 1);

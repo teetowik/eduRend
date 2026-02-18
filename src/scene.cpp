@@ -246,7 +246,6 @@ void OurTestScene::UpdateTransformationBuffer(
 
 void OurTestScene::InitLightCamBuffer()
 {
-	HRESULT hr;
 	D3D11_BUFFER_DESC vectorBufferDesc = { 0 };
 	vectorBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	vectorBufferDesc.ByteWidth = sizeof(LightCamBuffer);
@@ -254,7 +253,7 @@ void OurTestScene::InitLightCamBuffer()
 	vectorBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	vectorBufferDesc.MiscFlags = 0;
 	vectorBufferDesc.StructureByteStride = 0;
-	ASSERT(hr = m_dxdevice->CreateBuffer(&vectorBufferDesc, nullptr, &lightcam_buffer));
+	m_dxdevice->CreateBuffer(&vectorBufferDesc, nullptr, &lightcam_buffer);
 }
 
 void OurTestScene::UpdateLightCamBuffer(

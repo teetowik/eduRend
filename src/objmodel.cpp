@@ -83,7 +83,7 @@ OBJModel::OBJModel(
 				material.DiffuseTextureFilename.c_str(),
 				&material.DiffuseTexture);
 			std::cout << "\t" << material.DiffuseTextureFilename
-				<< (SUCCEEDED(hr) ? " - OK" : "- FAILED") << std::endl;
+				<< (SUCCEEDED(hr) ? " - OK DiffuseMap" : "- FAILED DiffuseMap") << std::endl;
 		}
 		if (material.NormalTextureFilename.size())
 		{
@@ -94,7 +94,18 @@ OBJModel::OBJModel(
 				material.NormalTextureFilename.c_str(),
 				&material.NormalTexture);
 			std::cout << "\t" << material.NormalTextureFilename
-				<< (SUCCEEDED(hr) ? " - OK" : "- FAILED") << std::endl;
+				<< (SUCCEEDED(hr) ? " - OK NormalMap" : "- FAILED NormalMap") << std::endl;
+		}
+		if (material.SpecularTextureFilename.size())
+		{
+
+			hr = LoadTextureFromFile(
+				dxdevice,
+				dxdevice_context,
+				material.SpecularTextureFilename.c_str(),
+				&material.SpecularTexture);
+			std::cout << "\t" << material.SpecularTextureFilename
+				<< (SUCCEEDED(hr) ? " - OK SpecularMap" : "- FAILED SpecularMap") << std::endl;
 		}
 
 		// + other texture types here - see Material class
@@ -128,6 +139,7 @@ void OBJModel::Render() const
 		// Bind diffuse texture to slot t0 of the PS
 		m_dxdevice_context->PSSetShaderResources(0, 1, &material.DiffuseTexture.TextureView);
 		m_dxdevice_context->PSSetShaderResources(1, 1, &material.NormalTexture.TextureView);
+		m_dxdevice_context->PSSetShaderResources(2, 1, &material.SpecularTexture.TextureView);
 		// + bind other textures here, e.g. a normal map, to appropriate slots
 
 		UpdateMaterialBuffer(material);
@@ -143,6 +155,7 @@ OBJModel::~OBJModel()
 	{
 		SAFE_RELEASE(material.DiffuseTexture.TextureView);
 		SAFE_RELEASE(material.NormalTexture.TextureView);
+		SAFE_RELEASE(material.SpecularTexture.TextureView);
 
 		// Release other used textures ...
 	}
