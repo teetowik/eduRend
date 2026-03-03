@@ -10,6 +10,197 @@ Cube::Cube(
 	std::vector<Vertex> vertices;
 	std::vector<unsigned> indices;
 
+	Vertex v0, v1, v2, v3; 
+	
+	//Front
+	
+	v0.Position = { -0.5, -0.5f, 0.5f };
+	v0.Normal = { 0, 0, 1 };
+	v2.TexCoord = { 0, 0 };
+
+	v1.Position = { 0.5, -0.5f, 0.5f };
+	v1.Normal = { 0, 0, 1 };
+	v1.TexCoord = { 0, 1 };
+
+	v2.Position = { 0.5, 0.5f, 0.5f };
+	v2.Normal = { 0, 0, 1 };
+	v0.TexCoord = { 1, 1 };
+
+	v3.Position = { -0.5, 0.5f, 0.5f };
+	v3.Normal = { 0, 0, 1 };
+	v3.TexCoord = { 1, 0 };
+
+	vertices.push_back(v0);
+	vertices.push_back(v1);
+	vertices.push_back(v2);
+	vertices.push_back(v3);
+
+	indices.push_back(0);
+	indices.push_back(1);
+	indices.push_back(3);
+
+	indices.push_back(1);
+	indices.push_back(2);
+	indices.push_back(3);
+
+	//Back
+
+	v0.Position = { 0.5, -0.5f, -0.5f };
+	v0.Normal = { 0, 0, -1 };
+	v2.TexCoord = { 0, 0 };
+
+	v1.Position = { -0.5, -0.5f, -0.5f };
+	v1.Normal = { 0, 0, -1 };
+	v1.TexCoord = { 0, 1 };
+
+	v2.Position = { -0.5, 0.5f, -0.5f };
+	v2.Normal = { 0, 0, -1 };
+	v0.TexCoord = { 1, 1 };
+
+	v3.Position = { 0.5, 0.5f, -0.5f };
+	v3.Normal = { 0, 0, -1 };
+	v3.TexCoord = { 1, 0 };
+
+	vertices.push_back(v0);
+	vertices.push_back(v1);
+	vertices.push_back(v2);
+	vertices.push_back(v3);
+
+	indices.push_back(4);
+	indices.push_back(5);
+	indices.push_back(7);
+
+	indices.push_back(5);
+	indices.push_back(6);
+	indices.push_back(7);
+
+	//Left
+
+	v0.Position = { 0.5, -0.5f, -0.5f };
+	v0.Normal = { 1, 0, 0 };
+	v3.TexCoord = { 0, 0 };
+
+	v1.Position = { 0.5, -0.5f, 0.5f };
+	v1.Normal = { 1, 0, 0 };
+	v0.TexCoord = { 0, 1 };
+
+	v2.Position = { 0.5, 0.5f, 0.5f };
+	v2.Normal = { 1, 0, 0 };
+	v1.TexCoord = { 1, 1 };
+
+	v3.Position = { 0.5, 0.5f, -0.5f };
+	v3.Normal = { 1, 0, 0 };
+	v2.TexCoord = { 1, 0 };
+
+	vertices.push_back(v0);
+	vertices.push_back(v1);
+	vertices.push_back(v2);
+	vertices.push_back(v3);
+
+	indices.push_back(9);
+	indices.push_back(8);
+	indices.push_back(11);
+
+	indices.push_back(10);
+	indices.push_back(9);
+	indices.push_back(11);
+
+	//Right
+
+	v0.Position = { -0.5, -0.5f, -0.5f };
+	v0.Normal = { -1, 0, 0 };
+	v2.TexCoord = { 0, 0 };
+
+	v1.Position = { -0.5, -0.5f, 0.5f };
+	v1.Normal = { -1, 0, 0 };
+	v1.TexCoord = { 0, 1 };
+
+	v2.Position = { -0.5, 0.5f, 0.5f };
+	v2.Normal = { -1, 0, 0 };
+	v0.TexCoord = { 1, 1 };
+
+	v3.Position = { -0.5, 0.5f, -0.5f };
+	v3.Normal = { -1, 0, 0 };
+	v3.TexCoord = { 1, 0 };
+
+	vertices.push_back(v0);
+	vertices.push_back(v1);
+	vertices.push_back(v2);
+	vertices.push_back(v3);
+
+	indices.push_back(12);
+	indices.push_back(13);
+	indices.push_back(15);
+
+	indices.push_back(13);
+	indices.push_back(14);
+	indices.push_back(15);
+
+	//Top
+
+	v0.Position = { -0.5, 0.5f, 0.5f };
+	v0.Normal = { 0, 1, 0 };
+	v0.TexCoord = { 0, 0 };
+
+	v1.Position = { 0.5, 0.5f, 0.5f };
+	v1.Normal = { 0, 1, 0 };
+	v3.TexCoord = { 0, 1 };
+
+	v2.Position = { 0.5, 0.5f, -0.5f };
+	v2.Normal = { 0, 1, 0 };
+	v2.TexCoord = { 1, 1 };
+
+	v3.Position = { -0.5, 0.5f, -0.5f };
+	v3.Normal = { 0, 1, 0 };
+	v1.TexCoord = { 1, 0 };
+
+	vertices.push_back(v0);
+	vertices.push_back(v1);
+	vertices.push_back(v2);
+	vertices.push_back(v3);
+
+	indices.push_back(16);
+	indices.push_back(17);
+	indices.push_back(19);
+
+	indices.push_back(17);
+	indices.push_back(18);
+	indices.push_back(19);
+
+	//Bottom
+
+	v0.Position = { -0.5, -0.5f, -0.5f };
+	v0.Normal = { 0, -1, 0 };
+	v0.TexCoord = { 0, 0 };
+
+	v1.Position = { 0.5, -0.5f, -0.5f };
+	v1.Normal = { 0, -1, 0 };
+	v3.TexCoord = { 0, 1 };
+
+	v2.Position = { 0.5, -0.5f, 0.5f };
+	v2.Normal = { 0, -1, 0 };
+	v2.TexCoord = { 1, 1 };
+
+	v3.Position = { -0.5, -0.5f, 0.5f };
+	v3.Normal = { 0, -1, 0 };
+	v1.TexCoord = { 1, 0 };
+
+	vertices.push_back(v0);
+	vertices.push_back(v1);
+	vertices.push_back(v2);
+	vertices.push_back(v3);
+
+	indices.push_back(20);
+	indices.push_back(21);
+	indices.push_back(23);
+
+	indices.push_back(21);
+	indices.push_back(22);
+	indices.push_back(23);
+
+	//InvertCube(vertices); // for skybox
+
+	/*
 	// Populate the vertex array with 4 Vertices
 	Vertex	v0, v1, v2, v3,
 			v4, v5, v6, v7, 
@@ -124,6 +315,8 @@ Cube::Cube(
 	vertices.push_back(v21);
 	vertices.push_back(v22);
 	vertices.push_back(v23);
+
+	InvertCube(vertices);
 	
 	// Populate the index array with two triangles
 	// Triangle #1
@@ -179,7 +372,7 @@ Cube::Cube(
 	indices.push_back(21);
 	indices.push_back(22);
 	indices.push_back(23);
-	
+	*/
 
 	// Vertex array descriptor
 	D3D11_BUFFER_DESC vertexbufferDesc{ 0 };
@@ -217,14 +410,30 @@ Cube::Cube(
 
 	//material.DiffuseTextureFilename = "assets/textures/floor_diffuse.JPG";
 	material.DiffuseTextureFilename = "assets/textures/yroadcrossing.png";
+	const char* CubeTextureFileNames[6] = { "assets/cubemaps/brightday/posx.png", 
+											"assets/cubemaps/brightday/negx.png", 
+											"assets/cubemaps/brightday/posy.png", 
+											"assets/cubemaps/brightday/negy.png", 
+											"assets/cubemaps/brightday/posz.png", 
+											"assets/cubemaps/brightday/negz.png"};
 
-	HRESULT hr = LoadTextureFromFile(dxdevice, dxdevice_context, material.DiffuseTextureFilename.c_str(), &material.DiffuseTexture);
+	//HRESULT hr = LoadTextureFromFile(dxdevice, dxdevice_context, material.DiffuseTextureFilename.c_str(), &material.DiffuseTexture);
+	HRESULT hr = LoadCubeTextureFromFile(dxdevice, CubeTextureFileNames, &material.CubeTexture);
+	if (SUCCEEDED(hr))
+	{
+		std::cout << "Cubemap OK" << std::endl;
+	}
+	else
+	{
+		std::cout << "Cubemap failed to load" << std::endl;
+	}
 }
 
 void Cube::Render() const
 {
 	m_dxdevice_context->PSSetConstantBuffers(1, 1, &material_buffer);
 	m_dxdevice_context->PSSetShaderResources(0, 1, &material.DiffuseTexture.TextureView);
+	m_dxdevice_context->PSSetShaderResources(3, 1, &material.CubeTexture.TextureView);
 
 	m_dxdevice_context->PSSetSamplers(0, 1, &sampler);
 
@@ -240,4 +449,12 @@ void Cube::Render() const
 
 	// Make the drawcall
 	m_dxdevice_context->DrawIndexed(m_number_of_indices, 0, 0);
+}
+
+void Cube::InvertCube(std::vector<Vertex>& v)
+{
+	for (auto it = v.begin(); it != v.end(); ++it)
+	{
+		it->Position *= -1;
+	}
 }

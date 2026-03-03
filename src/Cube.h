@@ -16,7 +16,13 @@ public:
 
 	virtual void Render() const;
 
-	~Cube() { SAFE_RELEASE(material.DiffuseTexture.TextureView) }
+	~Cube()
+	{
+		SAFE_RELEASE(material.DiffuseTexture.TextureView);
+		SAFE_RELEASE(material.CubeTexture.TextureView);
+	}
+
+	void InvertCube(std::vector<Vertex>& v);
 };
 
 

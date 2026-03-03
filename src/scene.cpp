@@ -60,6 +60,7 @@ void OurTestScene::Init()
 
 	m_quad = new QuadModel(m_dxdevice, m_dxdevice_context);
 	m_cube = new Cube(m_dxdevice, m_dxdevice_context);
+	m_skybox = new Cube(m_dxdevice, m_dxdevice_context);
 
 	light_src.set(0, 0, 5);
 }
@@ -130,6 +131,10 @@ void OurTestScene::Update(
 		mat4f::translation(-2, 0, 0) *
 		mat4f::scaling(0.2, 0.2, 0.2);
 
+	m_skybox_transform = mat4f::translation(m_camera->GetCamPos().xyz()) * 
+						 mat4f::rotation(0, 0, 0, 0) * 
+						 mat4f::scaling(300, 300, 300);
+
 	m_earth_transform = m_sun_transform * m_earth_transform;
 	m_moon_transform = m_earth_transform * m_moon_transform;
 
@@ -174,6 +179,9 @@ void OurTestScene::Render()
 	UpdateTransformationBuffer(m_cube_transform, m_view_matrix, m_projection_matrix);
 	m_cube->Render();
 
+	UpdateTransformationBuffer(m_skybox_transform, m_view_matrix, m_projection_matrix);
+	m_skybox->Render();
+
 	// Load matrices + Sponza's transformation to the device and render it
 	UpdateTransformationBuffer(m_sponza_transform, m_view_matrix, m_projection_matrix);
 	m_sponza->Render();
@@ -194,6 +202,7 @@ void OurTestScene::Render()
 void OurTestScene::Release()
 {
 	SAFE_DELETE(m_quad);
+	SAFE_DELETE(m_skybox);
 	SAFE_DELETE(m_cube);
 	SAFE_DELETE(m_sponza);
 	SAFE_DELETE(m_camera);

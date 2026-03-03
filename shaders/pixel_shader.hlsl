@@ -2,6 +2,7 @@
 Texture2D texDiffuse : register(t0);
 Texture2D NormalMap : register(t1);
 Texture2D texSpecular : register(t2);
+TextureCube CubeMap : register(t3);
 
 SamplerState texSampler : register(s0);
 
@@ -67,7 +68,6 @@ float4 PS_main(PSIn input) : SV_Target
     
     int normalWidth, normalHeight, specularWidth, specularHeight;
     NormalMap.GetDimensions(normalWidth, normalHeight);
-    texSpecular.GetDimensions(specularWidth, specularHeight);
     
     if (normalWidth != 0)
     {
@@ -77,26 +77,24 @@ float4 PS_main(PSIn input) : SV_Target
         Normal = mul(TBN, normal);
     }
     
-    //if (specularWidth != 0)
-    //{
-    //    specColour = texSpecular.Sample(texSampler, input.TexCoord);
-    //}
-    
-    float Shininess = 30.0f;
+    float Shininess = 0.0f;
     
     float3 L = normalize(LightPosition.xyz - input.PosWorld);
     
     float3 V = normalize(CamPosition.xyz - input.PosWorld);
     
     float3 R = reflect(-L, Normal);
+    
+    float3 cubeMap = CubeMap.Sample(texSampler, reflect(V, Normal)).xyz;
+    //float3 cubeMap = CubeMap.Sample(texSampler, V).xyz; // for skybox
 	
     float3 Ka = AmbientColour.xyz * texColour;
 	
     float diffuse = saturate((dot(Normal, L)));
-    float3 Kd = texColour * diffuse;
+    float3 Kd = texColour * diffuse * cubeMap;
 	
     float specular = (pow(max(dot(V, R), 0.0), Shininess));
-    float3 Ks = SpecularColour.xyz * specular;// * specColour;
+    float3 Ks = SpecularColour.xyz * specular * cubeMap; // * specColour;
     
     return float4(Ka + Kd + Ks, 1);
     
