@@ -85,8 +85,8 @@ float4 PS_main(PSIn input) : SV_Target
     
     float3 R = reflect(-L, Normal);
     
-    float3 cubeMap = CubeMap.Sample(texSampler, reflect(V, Normal)).xyz;
-    //float3 cubeMap = CubeMap.Sample(texSampler, V).xyz; // for skybox
+    //float3 cubeMap = CubeMap.Sample(texSampler, reflect(V, Normal)).xyz;
+    float3 cubeMap = CubeMap.Sample(texSampler, V).xyz; // for skybox
 	
     float3 Ka = AmbientColour.xyz * texColour;
 	

@@ -198,7 +198,7 @@ Cube::Cube(
 	indices.push_back(22);
 	indices.push_back(23);
 
-	//InvertCube(vertices); // for skybox
+	InvertCube(vertices); // for skybox
 
 	/*
 	// Populate the vertex array with 4 Vertices
@@ -412,8 +412,8 @@ Cube::Cube(
 	material.DiffuseTextureFilename = "assets/textures/yroadcrossing.png";
 	const char* CubeTextureFileNames[6] = { "assets/cubemaps/brightday/posx.png", 
 											"assets/cubemaps/brightday/negx.png", 
-											"assets/cubemaps/brightday/posy.png", 
 											"assets/cubemaps/brightday/negy.png", 
+											"assets/cubemaps/brightday/posy.png", 
 											"assets/cubemaps/brightday/posz.png", 
 											"assets/cubemaps/brightday/negz.png"};
 
